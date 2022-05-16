@@ -1,6 +1,16 @@
 import chalk from "chalk";
 import fs from "fs";
 
+function extraiLinks(texto) {
+  const regex = /\[([^\]]*)\]\((https?:\/\/[^$#\s].[^\s]*)\)/gm;
+  const arrayResultados = [];
+  let temp;
+  while ((temp = regex.exec(texto)) !== null) {
+    arrayResultados.push({ [temp[1]]: temp[2] });
+  }
+  return arrayResultados;
+}
+
 function trataErro(erro) {
   throw new Error(chalk.red(erro.code, "nao há arquivo no caminho!!"));
 }
@@ -31,7 +41,7 @@ async function pegaArquivo(caminhoDoArquivo) {
   const encoding = "utf8";
   try {
     const texto = await fs.promises.readFile(caminhoDoArquivo, encoding);
-    console.log(chalk.green(texto));
+    console.log(extraiLinks(texto));
   } catch (erro) {
     trataErro(erro);
   } finally {
@@ -40,3 +50,6 @@ async function pegaArquivo(caminhoDoArquivo) {
 }
 
 pegaArquivo("./arquivos/texto1.md");
+
+// vamos usar expressoes regulares Regex
+// site regex101.com mostra se o texto fica ok em expressao regular

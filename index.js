@@ -5,6 +5,7 @@ function trataErro(erro) {
   throw new Error(chalk.red(erro.code, "nao há arquivo no caminho!!"));
 }
 
+// método sincrono de ler arquivos
 // function pegaArquivo(caminhoDoArquivo) {
 //   const encoding = "utf8";
 //   fs.readFile(caminhoDoArquivo, encoding, function (erro, texto) {
@@ -16,4 +17,13 @@ function trataErro(erro) {
 //   });
 // }
 
-// pegaArquivo("./arquivos/texto1.md");
+// metodo assíncrono de ler arquivos
+function pegaArquivo(caminhoDoArquivo) {
+  const encoding = "utf8";
+  fs.promises
+    .readFile(caminhoDoArquivo, encoding)
+    .then((texto) => console.log(texto))
+    .catch((erro) => trataErro(erro));
+}
+
+pegaArquivo("./arquivos/texto1.md");
